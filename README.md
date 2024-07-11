@@ -1366,7 +1366,9 @@ Abbiamo scritto test per i modelli, i form e le viste principali dell'applicazio
 
 ### Migliorie
 
-Login sulla radice, è sufficiente modificare url_shortener/urls.py e aggiungi un reindirizzamento per la root dell'applicazione alla vista di login.
+#### Login sulla radice
+
+Per avere il Login sulla radice, è sufficiente modificare url_shortener/urls.py e aggiungi un reindirizzamento per la root dell'applicazione alla vista di login.
 
 ```python
 
@@ -1381,35 +1383,92 @@ urlpatterns = [
 ]
 ```
 
-Per aggiungere un layout di base basato su Bulma CSS al tuo progetto Django, segui questi passaggi. Bulma è un framework CSS moderno e flessibile che offre una struttura pulita e responsiva per la progettazione delle interfacce utente.
+#### CSS e base template.
 
-### Installazione di Bulma CSS
+In Django, un "base template" (o template base) è un template HTML che fornisce la struttura di base e i componenti comuni per tutte le pagine del tuo sito web. Questo approccio è parte della metodologia di ereditarietà dei template, che consente di definire un layout generico una volta e riutilizzarlo in tutti i template specifici delle pagine.
 
-1. **Installazione di Bulma tramite CDN**:
-   La forma più semplice per utilizzare Bulma è includerlo nel tuo template direttamente da un CDN (Content Delivery Network).
+### Caratteristiche Principali di un Base Template:
 
-   - Apri il tuo file `base.html` (o qualsiasi altro nome tu abbia scelto per il tuo layout di base) nella directory dei template del tuo progetto Django.
+1. **Struttura di Base**: Il base template definisce la struttura HTML di base del sito, come l'intestazione (`<head>`), il menu di navigazione, il footer e altri elementi comuni che compaiono su tutte le pagine.
 
-   - Aggiungi il seguente link nel tag `<head>` per importare Bulma CSS:
+2. **Sezioni Ricambiabili**: Utilizza i tag di template di Django come `{% block %}` e `{% endblock %}` per definire sezioni ricambiabili. Queste sezioni possono essere sovrascritte dai template figlio per inserire contenuti specifici delle pagine.
 
-     ```html
-     <!DOCTYPE html>
-     <html lang="en">
-     <head>
-         <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <title>Il tuo titolo</title>
-         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-         <!-- Altri stili personalizzati, script, etc. -->
-     </head>
-     <body>
-     ```
+3. **Riutilizzo del Codice**: Consentono di evitare la duplicazione del codice HTML comune su ogni pagina del sito. Invece, il codice comune è definito una sola volta nel base template e le pagine specifiche ereditano questa struttura.
 
-     Assicurati di sostituire `"https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"` con la versione più recente di Bulma disponibile al momento dell'integrazione nel tuo progetto.
+### Esempio di Utilizzo:
 
-2. **Utilizzo dei Componenti di Pico CSS**:
+Immagina di avere un base template chiamato `base.html` che definisce il layout generale del tuo sito web:
 
-   Esempio di struttura di base utilizzando PICO CSS
+```html
+<!-- base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <!-- Altri metadati, link a fogli di stile, script, ecc. -->
+</head>
+<body>
+    <header>
+        <!-- Barra di navigazione -->
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Contenuto principale -->
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Footer del sito -->
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+```
+
+### Utilizzo nei Template Figlio:
+
+I template specifici delle pagine (come `home.html`, `about.html`, `contact.html`, ecc.) estendono il base template `base.html` e forniscono il contenuto specifico per ciascuna pagina:
+
+```html
+<!-- home.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block content %}
+    <h1>Welcome to My Website!</h1>
+    <p>This is the homepage content.</p>
+{% endblock %}
+```
+
+In questo esempio:
+
+- `{% extends 'base.html' %}` indica che `home.html` estende `base.html`, quindi eredita il layout e i componenti definiti nel base template.
+  
+- `{% block title %}` e `{% block content %}` sono sezioni definite nel base template che vengono sovrascritte nei template figlio per inserire titoli e contenuti specifici della pagina.
+
+### Vantaggi dell'Utilizzo di un Base Template:
+
+- **Manutenibilità**: Facilita la manutenzione del sito, poiché le modifiche al layout possono essere apportate una sola volta nel base template e si rifletteranno automaticamente su tutte le pagine del sito.
+
+- **Consistenza**: Assicura una coerenza visiva e strutturale tra tutte le pagine del sito, migliorando l'esperienza utente e l'usabilità.
+
+- **Riutilizzo del Codice**: Elimina la duplicazione del codice HTML comune, promuovendo una pratica di sviluppo più pulita e efficiente.
+
+In sintesi, il base template in Django è una pratica fondamentale per organizzare e strutturare i tuoi template HTML in modo modulare e riutilizzabile, migliorando la manutenibilità e la coerenza del tuo progetto web.
+
+###  Esempio di struttura di base utilizzando PICO CSS
 
 ```html
 {% load static %}
