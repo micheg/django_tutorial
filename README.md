@@ -7,6 +7,8 @@ Ecco una panoramica di come funziona Django e del rapporto tra applicazioni e pr
 
 Questo tutorial introdurrà i concetti fondamentali di Djano e poi presenterà una piccola applicazione pratica (con i realtivi test).
 Un piccolo servizio di accorciamento degli URL.
+Il Repository dell'applicazione di esempio [si trova qua:](https://github.com/micheg/django_shortener)
+
 
 ### Versione:
 
